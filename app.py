@@ -31,18 +31,34 @@ menu_items = [key for key in CSV_LABELS if key in available_keys]
 # Statické menu
 selected_key = st.sidebar.radio("📁 Vyber tabulku", menu_items, format_func=lambda k: CSV_LABELS[k])
 
-# Načtení dat
+# Načtení dat a editor
 if selected_key:
     file_name = selected_key + ".csv"
     file_path = os.path.join(DATA_DIR, file_name)
 
     try:
         df = pd.read_csv(file_path)
+
+        # Skrytí sloupce 'id' (pokud existuje)
+        if 'id' in df.columns:
+            id_col = df['id']
+            df_visible = df.drop(columns=['id'])
+        else:
+            id_col = None
+            df_visible = df
+
         st.subheader(f"{CSV_LABELS[selected_key]} (`{file_name}`)")
-        edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
+        edited_df = st.data_editor(df_visible, num_rows="dynamic", use_container_width=True)
 
         if st.button("💾 Uložit změny"):
-            edited_df.to_csv(file_path, index=False)
+            # Sloupec id vrátíme zpět na začátek
+            if id_col is not None:
+                df_to_save = edited_df.copy()
+                df_to_save.insert(0, 'id', id_col)
+            else:
+                df_to_save = edited_df
+
+            df_to_save.to_csv(file_path, index=False)
             st.success(f"Změny uloženy do `{file_name}`")
 
     except Exception as e:
