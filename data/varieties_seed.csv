@@ -1,0 +1,444 @@
+id,nazev
+1,DK Excelsium
+2,DK Exquisit
+13,Toreroo
+14,Anja
+15,Johanna
+16,Padura
+17,Hybery
+18,Hifi
+19,Nelson
+20,Grizzly
+21,RGT Reform
+22,Vanessa
+23,Calgary
+24,Umberto KWS
+25,Kicker
+26,DK Expansion
+27,Atora
+28,RGT Dozzen
+29,SY Florida
+30,Anniston
+31,Marcopolos
+32,Hybrid rock
+33,Alvaro KWS
+34,Hamour
+35,DK Exception
+36,pokus-zbytky
+38,Arabella
+39,ES Mambo
+40,Jumper
+41,Silver
+42,Kuga
+43,Cedrico
+44,Sandra
+45,Carmina
+46,LG Imposanto
+47,Viriato
+49,Golem
+50,Rivero
+51,Advokat
+52,Frisky
+53,KWS Ozon
+54,Triumph
+55,Marisa
+56,Sonnengold
+57,In Vigor
+58,Angelico
+59,Marc KWS
+60,Sesypy
+61,Architect
+62,Arsenal
+63,Avenue
+64,Amadeus
+65,Arkeos
+66,Sheriff
+67,Athlon
+68,Steffi
+69,Bohemia
+70,Adverdo
+71,Herakles
+72,Respect
+73,Spurt
+74,Cornetto
+75,Bojos
+76,Sagar
+77,Lump
+78,Raven
+79,Laureate
+80,P8000
+81,SUM 235
+82,Beatle
+83,Valterinio
+84,KWS 2322
+85,KWS 2322
+86,KWS 2323
+87,Sixxtus
+88,NewMilk
+90,Quintus
+91,Laudis
+92,Salamanca + Bonus
+93,Boxer
+94,Audit
+95,Picobella
+96,Drake
+97,Varios
+98,Gellert
+99,BTS 710
+100,Patrik
+101,Ozon
+102,směs
+103,ES Bigben
+104,P 8816
+105,Karlaxx
+106,co dům dal
+107,Prophet
+108,Otakar
+109,Lipexx
+110,Feroxxy
+111,Bixx
+112,Trendy
+113,Sázava
+114,Korok+Respect
+115,Raven+Spurt
+116,RGT Volumixx
+117,LG 31235
+118,P 9074
+119,KWS Agrovitalo
+120,KWS Stabil
+121,LG 3258
+122,RGT Sixxtus
+124,ES Legolas
+125,RGT Feroxxy
+126,RGT Exxotika
+127,KWS Walterinio
+128,RGT Lipexx
+129,SU Performer
+130,Danubio
+131,Big Ben
+132,Campona
+133,AGROPOLIS
+134,CORFINIO
+135,DKC 3568
+136,ES BIGBEN
+137,ES JOCKER
+138,SUVIDA
+139,Suseta
+140,KWS Nestor
+141,KWS Juventus
+142,Allison
+143,zbytky
+144,Cesario
+145,Ermino
+146,pokus
+147,NEWTON
+148,DARIOT
+149,ES NAVIGO
+150,TULUS
+151,DEPOT
+152,EXPO
+153,LG Mocca
+154,RIVERO
+155,Gordian
+156,LG ZORO
+157,Inspector
+158,Airbus
+159,Centurion
+160,PT 271
+161,Mambo
+162,Laurin
+163,Sitka
+164,Julie
+165,Aktion
+166,Chiron
+167,Dagmar
+168,Liseta
+169,PX 113
+170,Trezzor
+171,RGT Doubleshot
+172,Malz
+173,Briga KWS
+174,SMART Renja
+175,Amulet
+176,BTS 8840
+177,Tim
+178,MIX
+179,BTS 6995
+180,Slovan
+181,P 8888
+182,RGT Karlaxx
+183,Poseidon
+184,LG 31276
+185,RGT Attraxxion
+186,Agro polis
+187,Volumixx
+188,Walterinio KWS
+189,AgroVitallo
+190,DKC 3623
+191,Pool Position
+192,Suzanne
+193,Marcamo
+194,Stromboli
+195,Watson
+196,BONUS
+197,ES AMULET
+198,ES HUBBLE
+199,SY GLORIUS+SY GORDIUS
+200,Korok+podsev tráva
+201,Gipfa
+202,Raven+Respect
+203,Oliver
+204,Inovec
+205,Vitalico KWS
+206,DK Exotter
+207,KWS Umberto
+208,LG Ambassador
+209,Feliciano
+210,Artemis
+211,Temptation
+212,DK Excited
+213,Dukato
+214,Ambassador
+215,William
+216,Barranco
+217,Marysell
+218,Marysell
+219,Marysell
+220,LG Orlice
+221,Tonnage
+222,Protector
+223,Absalon
+224,Absalon
+225,Genius
+226,PX 131
+227,Absolut
+228,Illusion
+229,Reform + Aurelius
+230,Mocca + Tonnage
+231,Serenada
+232,Overture
+233,SMART Sanya KWS
+234,Hopper SMART
+235,Pexeso
+236,Lion
+237,Cezzane
+238,vlastní
+239,Tybalt
+240,Quintus
+241,RGT Gagarin
+242,Smart Gladiata KWS
+243,Smart BTS 9635
+244,Registana
+245,Frigos
+246,Oslava
+247,Morava
+248,Giulia
+249,Vlasta
+250,směs vojtěškojetelotráva
+251,Rumba
+252,Saul
+253,Korok
+254,Lion
+255,CELESTE
+256,ASTRONAUTE + UNO
+257,DKC 3787
+258,Rudolfinio KWS
+259,Salamandra
+260,Hermino
+261,LG 31.224
+262,LG 31.227
+263,Marcamo
+264,Cemora
+265,ASTRONAUT + BONUS
+266,DKC 3601
+267,Korus
+268,Kofu
+269,DKC 3601
+270,LG 31235
+271,GLUTEXO
+272,Iapur
+273,Monster
+274,P8358
+275,Sucorn
+276,Cortinio
+277,KWS Figaro
+278,RGT Coexxion
+279,SY AMFORA
+280,Bettina
+281,KWS Feliciano
+282,Excited
+283,Sněžka
+284,ES Bond
+285,Simona
+286,LG Arnold
+287,LG Architect
+288,Falbala
+289,Dominator
+290,PT275
+291,Valerie
+292,Mocca
+293,Orlice
+294,Reform
+295,Ritter
+296,Moschus
+297,Ernesta
+298,Zollernspelz
+299,Ponticus
+300,Aurelius
+301,Jaipur
+302,LG 31268
+303,Amaveritas
+304,Elamiana
+305,DKC 3450
+306,množení
+307,Kabot
+308,Enjoy
+309,STAMGAST
+310,ELAMIANA
+311,KWS SALAMANDRA
+312,RGT LACTEAXX
+313,P 8201
+314,LG 31268
+315,s nízkým FAO
+316,Aspen
+317,Gea
+318,Tribal
+319,Lirocco
+320,NÁKUP
+321,Anuschka
+322,red fantasi
+323,Astronaut
+324,Nutrix
+325,Chlumský
+326,Santiny
+327,Kipunji Smart
+328,BTS Smart 9145N
+329,Regalis
+330,Babexx
+331,Bond
+332,LG 31.272
+333,CAPELLO
+334,SMĚS
+335,SMĚS PRO OPYLOVAČE
+336,VEGA
+337,RGT BIXX
+338,KWS Salamandra
+339,KWS Kidemos
+340,KWS CORFINIO
+341,Mamut
+342,Saxon
+343,RGT Satelia
+344,P 9241
+345,Shako KWS
+346,LG 31.277
+347,Granny
+348,Vltavín
+349,Aurelia
+350,Exoter
+351,Sanchos
+352,KWS SANCHOS
+353,PT 298
+354,PEPER
+355,KWS Morris
+356,Asory
+357,ARKTA
+358,Telemark
+359,Askand
+360,Remus
+361,Smart Perla KWS
+362,RGT Lateaxx
+363,KWS Amaveritas
+366,Avatar
+365,Spinner Smart
+367,Markýz
+368,Ludmilo
+369,Indexx
+370,Amamonte
+371,Tiguan
+372,Grand turismo
+373,Muxxeal
+374,Lacteaxx
+375,DKC 3419
+376,Speciálně namíchaná směs jetelotrávy
+377,Zelený
+378,Nektarodárný
+379,Avicii
+380,OCHRANNÝ PÁS VOD
+381,NEKTARODÁRNÝ UHOR
+382,LEIDI
+383,RGT RITTER
+384,LG Triumph
+385,RGT TREZZOR
+386,ARABESQUE
+387,UNO
+388,Mastodon
+389,Aspect
+390,Sydney
+391,DK EXAURA
+392,ES CAPELLO
+393,SMĚS
+394,TUBA
+395,Romeo
+396,PT 303
+397,LG Absalon
+398,Campesino
+399,Revolver
+400,Cesario
+401,Gregale
+402,RGT Ponticus
+403,Rambo
+404,tiberius
+405,KWS KEITUM
+406,RGT REVOLVER
+407,Corvet
+408,Oddaxx
+409,LG 32.257
+410,Hugo
+411,Bingo
+412,eso
+413,Astronaut
+414,SY Amfora
+415,SY Liberty
+416,SY Torino
+417,Hystrix
+418,Neutrino
+419,Terrapin Smart
+420,Beppina KWS
+421,KWS Mino
+422,P 9610
+423,LG 31.301
+424,Abaca
+425,Gagarin
+426,BONUS + LUMP
+427,InV1266CL
+428,LG Auckland
+429,Camarino
+430,SY Glorius
+431,DKC 3305
+432,Jetelotráva
+433,Materie KWS
+434,LG 24.311
+435,Legolas
+436,Arturello
+437,Manhattan
+438,Janosh
+439,Exaura
+440,Generoso
+441,Imperio
+442,Tempo
+443,PT 302
+444,PT 312
+445,LG Trumph
+446,Barancco
+447,Ostro
+448,směs pícní speciální
+449,Presley
+450,RGT Bsouthwark
+451,Blizard
+452,Acacia
+453,Kalbex
+454,Stalagmit
+455,Johnson
+456,LG Mondial
+457,LG Niklas
+458,test

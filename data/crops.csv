@@ -1,0 +1,64 @@
+id,nazev,odruda,enable_main_table,show_in_table,poradi
+2,Pšenice ozimá,,Y,Y,
+3,Řepka ozimá,,Y,Y,5.0
+4,Hrách,,Y,N,16.0
+5,Pšenice jarní,,Y,N,
+6,Ječmen jarní,,Y,Y,1.0
+7,Ječmen ozimý,,Y,Y,0.0
+8,Kukuřice,,Y,N,6.0
+27,Svazenka,,Y,N,17.0
+9,Oves nahý,,Y,N,12.0
+10,Tritikále jarní,,Y,N,15.0
+12,Cukrová řepa,,N,Y,18.0
+14,Oves černý,,Y,N,13.0
+15,Slunečnice,,Y,N,19.0
+16,Kukuřice na zrno,,Y,Y,7.0
+17,Kukuřice na siláž,,Y,Y,8.0
+18,Žito ozimé,,Y,N,9.0
+25,Oves setý,,Y,N,11.0
+20,Tritikále ozimé,,Y,Y,14.0
+21,Žito jarní,,Y,N,10.0
+22,Peluška,,Y,N,20.0
+23,Hořčice,,Y,N,21.0
+24,Řepka jarní,,Y,N,4.0
+31,Vojtěška semeno,,Y,N,22.0
+32,Jetel semeno,,Y,N,23.0
+34,Hrách+jetel,,N,N,24.0
+35,Hrách + oves,,N,N,25.0
+36,Hrách + oves s podsevem vojtěšky,,N,N,26.0
+37,Oves + Jetel,,N,N,27.0
+38,Kukuřice na mačkané zrno,,N,N,28.0
+39,Kostřava rákosovitá,,N,N,29.0
+40,jarní směska,,N,N,30.0
+41,Hrách + jarní ječmen,,N,N,31.0
+42,Hrách + jarní ječmen s podsevem vojtěšky,,Y,N,33.0
+43,jetel,,Y,N,34.0
+44,Oves+podsev tráva,,N,N,35.0
+45,KUKUŘICE na CCM,,N,Y,32.0
+47,Hrách+podsev vojtěška,,Y,N,
+46,Oves žlutý,,Y,N,
+50,Sója,,N,Y,
+51,žito ozimé + peluška ozimá,,N,N,
+49,Vojtěška,,Y,N,
+52,Pšenice ŠPALDA,,Y,N,
+53,Oves žlutý,,N,N,
+54,Vojtěškotrávní směs,,Y,N,
+55,Jílek vytrvalý,,N,N,
+56,Luční trávy na OP,,N,N,
+57,OCHRANNÉ PÁSY,,N,N,
+58,jetel+jílek,,N,N,
+59,brambory,,N,N,
+60,TRAVNÍ POROST NA ORNÉ,,N,N,
+61,jetelotráva,,N,N,
+62,OZIMÁ MEZIPLODINA,,N,N,2.0
+63,PELUŠKA OZIMÁ - MEZIPLODINA,,Y,N,
+64,žito senáž,,N,N,3.0
+65,Hrách + ječmen jarní s podsevem jetelotr,,Y,N,
+66,Úhor,,Y,N,
+67,PŠENICE JARNÍ,,N,N,
+68,Mastodon,,N,N,
+69,zelené hnojení,,N,N,
+70,Oves pluchatý,,N,N,
+71,jetelotráva,,N,N,
+72,směs pícní speciální,,N,N,
+73,test,,Y,Y,30.0
