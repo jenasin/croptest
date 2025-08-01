@@ -20,7 +20,7 @@ CSV_LABELS = {
     "typpozemek": "📑 Typy pozemků",
     "userpodniky": "👥 Uživatelé a podniky",
     "users": "👤 Uživatelé",
-    "varieties_seed": "🌱 Odrody / semena"
+    "varieties_seed": "🌱 Odrůdy"
 }
 
 # Načíst dostupné soubory a filtrovat jen ty, které máme v mapě
