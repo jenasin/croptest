@@ -313,7 +313,7 @@ if selected_key == "users":
             out.insert(0, "id", id_series)
         out.to_csv(file_path, index=False)
         st.success(f"Změny uloženy do `{file_name}` ✅")
-        st.experimental_rerun()
+        st.rerun()
 
     st.markdown("---")
 
@@ -394,7 +394,7 @@ if selected_key == "users":
                     curr = pd.concat([curr, pd.DataFrame([new_user])[curr.columns]], ignore_index=True)
                     curr.to_csv(file_path, index=False)
                     st.success("Nový uživatel uložen ✅")
-                    st.experimental_rerun()
+                    st.rerun()
 
     # --- Změna hesla existujícího uživatele ---
     with st.expander("🗝️ Změnit heslo existujícího uživatele", expanded=False):
@@ -425,7 +425,7 @@ if selected_key == "users":
                         curr.loc[idx, "password_iters"] = iters
                         curr.to_csv(file_path, index=False)
                         st.success("Heslo změněno ✅")
-                        st.experimental_rerun()
+                        st.rerun()
 
     # --- Změna podniků u existujícího uživatele (multiselect) ---
     with st.expander("🏢 Upravit podniky u uživatele", expanded=False):
@@ -453,7 +453,7 @@ if selected_key == "users":
                     curr2.loc[curr2["username"].astype(str) == sel_user2, "business_ids"] = list_to_csv_ids(chosen_ids)
                     curr2.to_csv(file_path, index=False)
                     st.success("Podniky uloženy ✅")
-                    st.experimental_rerun()
+                    st.rerun()
 
     st.stop()
 # ===== /USERS =====
