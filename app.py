@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import os
 import numpy as np
+import os, hashlib, binascii
+import hmac
+
 
 st.set_page_config(page_title="📁 CSV Editor", layout="wide")
 st.title("📊 Editor CSV tabulek")
@@ -51,7 +54,6 @@ if selected_key:
         st.subheader(f"{CSV_LABELS[selected_key]} (`{file_name}`)")
 
         # --- 🌾 Plodiny: tabulka + tlačítko pro editaci pořadí ---
-     # --- 🌾 Plodiny: šipky + nové řádky (poradi & id) ---
         if selected_key == "crops":
             import numpy as np
 
@@ -180,3 +182,279 @@ if selected_key:
 
     except Exception as e:
         st.error(f"❌ Chyba při načítání `{file_name}`: {e}")
+
+
+def make_password_hash(password: str, *, iterations: int = 200_000) -> tuple[str, str, int]:
+    """PBKDF2-HMAC-SHA256: vrátí (salt_hex, hash_hex, iterations)."""
+    salt = os.urandom(16)
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
+    return binascii.hexlify(salt).decode(), binascii.hexlify(dk).decode(), iterations
+
+def verify_password(password: str, salt_hex: str, hash_hex: str, iterations: int) -> bool:
+    """Ověření hesla proti uloženému salt+hash."""
+    salt = binascii.unhexlify(salt_hex.encode())
+    expected_hash = binascii.unhexlify(hash_hex.encode())
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
+    return hmac.compare_digest(dk, expected_hash)
+
+def csv_ids_to_list(s):
+    if s is None or (isinstance(s, float) and pd.isna(s)) or str(s).strip()=="":
+        return []
+    return [int(x) for x in str(s).replace(" ", "").split(",") if str(x).strip().isdigit()]
+
+def list_to_csv_ids(lst):
+    if not lst:
+        return ""
+    return ",".join(str(int(x)) for x in lst)
+
+# ===== USERS: kompletní a robustní správa (jen 3 role: admin/watcher/user) =====
+if selected_key == "users":
+    # --- Načti businesses kvůli výběru podniků (bez pádů i když chybí) ---
+    biz_path = os.path.join(DATA_DIR, "businesses.csv")
+    biz_df = None
+    if os.path.exists(biz_path):
+        try:
+            biz_df = pd.read_csv(biz_path)
+        except Exception:
+            biz_df = None
+
+    biz_choices, biz_id_to_name, biz_name_to_id = [], {}, {}
+    if biz_df is not None and not biz_df.empty:
+        # detekce sloupců id / název (fallback na 1./2. sloupec)
+        cand_id = [c for c in biz_df.columns if c.lower() in ("id", "business_id")]
+        cand_name = [c for c in biz_df.columns if c.lower() in ("name", "nazev", "title")]
+        biz_id_col = cand_id[0] if cand_id else biz_df.columns[0]
+        biz_name_col = cand_name[0] if cand_name else (biz_df.columns[1] if len(biz_df.columns) > 1 else biz_df.columns[0])
+        biz_df[biz_id_col] = pd.to_numeric(biz_df[biz_id_col], errors="coerce").astype("Int64")
+        for _, r in biz_df.iterrows():
+            if pd.isna(r[biz_id_col]):
+                continue
+            bid, bname = int(r[biz_id_col]), str(r[biz_name_col])
+            biz_choices.append((bid, bname))
+        biz_id_to_name = {i: n for i, n in biz_choices}
+        biz_name_to_id = {n: i for i, n in biz_choices}
+
+    # --- Users DF z právě načteného df (z tvého hlavního kódu) ---
+    users_df = df.copy()
+
+    # Jistota: vytvoř chybějící sloupce, ať to nikdy nepadá
+    for need_col, default in [
+        ("username", ""),
+        ("full_name", ""),
+        ("email", ""),
+        ("role", "user"),
+        ("business_ids", ""),        # <<< zajistí, že existuje
+        ("password_salt", ""),
+        ("password_hash", ""),
+        ("password_iters", ""),      # ukládáme i iterace PBKDF2
+        ("is_active", True),
+    ]:
+        if need_col not in users_df.columns:
+            users_df[need_col] = default
+
+    # id série (pokud existuje)
+    id_series = users_df["id"] if "id" in users_df.columns else None
+
+    # Tabulka pro zobrazení (id skryjeme)
+    show_df = users_df.drop(columns=["id"], errors="ignore").copy()
+
+    # Čitelné názvy podniků (jen pro zobrazení)
+    if biz_id_to_name:
+        show_df["Podniky (názvy)"] = show_df["business_ids"].apply(
+            lambda s: ", ".join(biz_id_to_name.get(i, f"#{i}") for i in csv_ids_to_list(s))
+        )
+
+    # --- Povolené role: přesně 3 ---
+    allowed_roles = ["admin", "watcher", "user"]
+    show_df["role"] = show_df["role"].astype(str)
+    show_df.loc[~show_df["role"].isin(allowed_roles), "role"] = "user"
+    roles = allowed_roles
+
+    # --- Editor pro běžná pole (bez hesel) ---
+    edited_tbl = st.data_editor(
+        show_df,
+        num_rows="fixed",         # přidávání níže přes formulář
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "username": st.column_config.TextColumn("Uživatelské jméno"),
+            "full_name": st.column_config.TextColumn("Jméno a příjmení"),
+            "email": st.column_config.TextColumn("E-mail"),
+            "role": st.column_config.SelectboxColumn("Role", options=roles),
+            "business_ids": st.column_config.TextColumn("Podniky (ID, čárkami)"),
+            "Podniky (názvy)": st.column_config.TextColumn("Podniky (názvy)"),
+            "is_active": st.column_config.CheckboxColumn("Aktivní"),
+            "password_salt": st.column_config.TextColumn("password_salt"),
+            "password_hash": st.column_config.TextColumn("password_hash"),
+            "password_iters": st.column_config.TextColumn("password_iters"),
+        },
+        disabled=["Podniky (názvy)", "password_salt", "password_hash", "password_iters"],
+    )
+
+    if st.button("💾 Uložit změny (bez hesel)"):
+        out = edited_tbl.copy()
+        # Drop pouze zobrazovacího sloupce, ať se nedostane do CSV
+        if "Podniky (názvy)" in out.columns:
+            out = out.drop(columns=["Podniky (názvy)"])
+        # Zarovnej role do allowed setu
+        if "role" in out.columns:
+            out["role"] = out["role"].astype(str)
+            out.loc[~out["role"].isin(allowed_roles), "role"] = "user"
+        # Normalizuj business_ids
+        if "business_ids" not in out.columns:
+            out["business_ids"] = ""
+        out["business_ids"] = out["business_ids"].apply(csv_ids_to_list).apply(list_to_csv_ids)
+        # Jistota heslových sloupců
+        for need_col in ["password_salt", "password_hash", "password_iters"]:
+            if need_col not in out.columns:
+                out[need_col] = ""
+        # Vrať id dopředu (pokud máme)
+        if id_series is not None:
+            out.insert(0, "id", id_series)
+        out.to_csv(file_path, index=False)
+        st.success(f"Změny uloženy do `{file_name}` ✅")
+        st.experimental_rerun()
+
+    st.markdown("---")
+
+    # --- Přidat nového uživatele (hash hesla PBKDF2) ---
+    with st.expander("➕ Přidat uživatele", expanded=False):
+        c1, c2 = st.columns(2)
+        with c1:
+            new_username = st.text_input("Uživatelské jméno*", key="new_u")
+            new_fullname = st.text_input("Jméno a příjmení", key="new_f")
+            new_email = st.text_input("E-mail", key="new_e")
+        with c2:
+            new_role = st.selectbox("Role", options=roles, index=roles.index("user"), key="new_r")
+            # výběr podniků (preferuj názvy, jinak ruční ID)
+            if biz_choices:
+                sel_biz_names = st.multiselect("Podniky", options=[n for _, n in biz_choices], key="new_b")
+                sel_biz_ids = [biz_name_to_id[n] for n in sel_biz_names]
+            else:
+                sel_biz_ids = csv_ids_to_list(st.text_input("Podniky (ID, čárkami)", key="new_b_ids"))
+
+        pw1 = st.text_input("Heslo*", type="password", key="new_p1")
+        pw2 = st.text_input("Potvrzení hesla*", type="password", key="new_p2")
+        active_flag = st.checkbox("Aktivní", value=True, key="new_active")
+
+        if st.button("📥 Uložit nového uživatele"):
+            if not new_username or not pw1 or not pw2:
+                st.error("Vyplň *Uživatelské jméno* a obě pole *Heslo*.")
+            elif pw1 != pw2:
+                st.error("Hesla se neshodují.")
+            else:
+                curr = pd.read_csv(file_path) if os.path.exists(file_path) else pd.DataFrame()
+
+                # Jistota: existují očekávané sloupce
+                for col, default in [
+                    ("username", ""), ("full_name", ""), ("email", ""), ("role", "user"),
+                    ("business_ids", ""), ("password_salt", ""), ("password_hash", ""), ("password_iters", ""), ("is_active", True),
+                ]:
+                    if col not in curr.columns:
+                        curr[col] = default
+
+                # Unikátní username
+                if "username" in curr.columns and new_username in curr["username"].astype(str).values:
+                    st.error("Uživatel s tímto uživatelským jménem už existuje.")
+                else:
+                    # Hash hesla (tvá funkce vrací 3 hodnoty)
+                    salt_hex, hash_hex, iters = make_password_hash(pw1)
+
+                    # Nové ID (pokud má CSV sloupec id)
+                    new_id = None
+                    if "id" in curr.columns:
+                        max_id = pd.to_numeric(curr["id"], errors="coerce").max()
+                        new_id = (int(max_id) + 1) if pd.notna(max_id) else 1
+
+                    # Slož nový záznam
+                    new_user = {
+                        "username": new_username,
+                        "full_name": new_fullname,
+                        "email": new_email,
+                        "role": new_role if new_role in allowed_roles else "user",
+                        "business_ids": list_to_csv_ids(sel_biz_ids),
+                        "password_salt": salt_hex,
+                        "password_hash": hash_hex,
+                        "password_iters": iters,
+                        "is_active": bool(active_flag),
+                    }
+                    if new_id is not None:
+                        new_user["id"] = new_id
+
+                    # Dorovnej chybějící sloupce dle CSV
+                    for col in curr.columns:
+                        new_user.setdefault(col, "" if col != "is_active" else True)
+
+                    # Pokud má new_user sloupec navíc, přidej ho do curr
+                    extra_cols = [c for c in new_user.keys() if c not in curr.columns]
+                    if extra_cols:
+                        curr = curr.reindex(columns=list(curr.columns) + extra_cols)
+
+                    # Přidej řádek a ulož
+                    curr = pd.concat([curr, pd.DataFrame([new_user])[curr.columns]], ignore_index=True)
+                    curr.to_csv(file_path, index=False)
+                    st.success("Nový uživatel uložen ✅")
+                    st.experimental_rerun()
+
+    # --- Změna hesla existujícího uživatele ---
+    with st.expander("🗝️ Změnit heslo existujícího uživatele", expanded=False):
+        user_choices = users_df["username"].astype(str).tolist() if "username" in users_df.columns else []
+        sel_user = st.selectbox("Uživatel", options=user_choices)
+        npw1 = st.text_input("Nové heslo*", type="password", key="pw1")
+        npw2 = st.text_input("Potvrzení nového hesla*", type="password", key="pw2")
+        if st.button("🔐 Uložit nové heslo"):
+            if not sel_user or not npw1 or not npw2:
+                st.error("Vyplň uživatele a obě pole hesla.")
+            elif npw1 != npw2:
+                st.error("Hesla se neshodují.")
+            else:
+                curr = pd.read_csv(file_path)
+                if "username" not in curr.columns:
+                    st.error("Soubor nemá sloupec 'username'.")
+                else:
+                    idx = curr.index[curr["username"].astype(str) == sel_user]
+                    if len(idx) == 0:
+                        st.error("Uživatel nenalezen.")
+                    else:
+                        salt_hex, hash_hex, iters = make_password_hash(npw1)
+                        for col in ("password_salt", "password_hash", "password_iters"):
+                            if col not in curr.columns:
+                                curr[col] = ""
+                        curr.loc[idx, "password_salt"] = salt_hex
+                        curr.loc[idx, "password_hash"] = hash_hex
+                        curr.loc[idx, "password_iters"] = iters
+                        curr.to_csv(file_path, index=False)
+                        st.success("Heslo změněno ✅")
+                        st.experimental_rerun()
+
+    # --- Změna podniků u existujícího uživatele (multiselect) ---
+    with st.expander("🏢 Upravit podniky u uživatele", expanded=False):
+        if not biz_choices:
+            st.info("Soubor `businesses.csv` nebyl nalezen nebo je prázdný – uprav `business_ids` přímo v tabulce.")
+        else:
+            user_choices2 = users_df["username"].astype(str).tolist() if "username" in users_df.columns else []
+            sel_user2 = st.selectbox("Uživatel", options=user_choices2, key="biz_user_sel")
+
+            curr2 = pd.read_csv(file_path)
+            # Jistota existence sloupce business_ids
+            if "business_ids" not in curr2.columns:
+                curr2["business_ids"] = ""
+
+            row = curr2[curr2["username"].astype(str) == sel_user2]
+            if row.empty:
+                st.warning("Uživatel nenalezen.")
+            else:
+                row = row.iloc[0]
+                current_ids = csv_ids_to_list(row["business_ids"])
+                current_names = [biz_id_to_name.get(i, f"#{i}") for i in current_ids]
+                chosen_names = st.multiselect("Podniky", options=[n for _, n in biz_choices], default=current_names)
+                if st.button("💼 Uložit podniky"):
+                    chosen_ids = [biz_name_to_id[n] for n in chosen_names]
+                    curr2.loc[curr2["username"].astype(str) == sel_user2, "business_ids"] = list_to_csv_ids(chosen_ids)
+                    curr2.to_csv(file_path, index=False)
+                    st.success("Podniky uloženy ✅")
+                    st.experimental_rerun()
+
+    st.stop()
+# ===== /USERS =====
+
