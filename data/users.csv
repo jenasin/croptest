@@ -11,3 +11,4 @@ id,username,email,password,role,full_name,business_ids,password_salt,password_ha
 30,kratonohy,kostomlaty@tekro.cz,$2b$12$CzD..Z/O.fA9aevQxHvrIex2Zh1OQ.irAmMkfZMLMX73to6FqYTHi,editor,,,,,,True
 31,test123,sarojanek@gmail.com,,admin,test,"6,4,3",4b58cdaef30707d6c37e4ae0833be2f9,f8b33ead77b84c99e8436a517cc62a460db61f704cb32c1b998dcdacec19a676,200000.0,True
 32,test1234,sarojanek@gmail.com,,admin,test,"6,4,3",d0f85255d13c86d28844dee9691f37c1,6436099dd1942f800303a809def0980e1ac00e174ede333f84cb9dadd3682355,200000.0,True
+33,test12345,sarojanek@gmail.com,,admin,test,"6,4,3",43b577acba2652bc0661356b2fcf445f,e29d09767625e61f6210adae23d96a94864df66e14713d307fce6cee42d574ac,200000.0,True
